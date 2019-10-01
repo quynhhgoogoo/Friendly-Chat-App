@@ -98,7 +98,7 @@ function saveImageMessage(file) {
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
     }).then(function(messageRef) {
         // 2 - Upload the image to Cloud Storage.
-        var filePath = firebase.auth().currentUser.uid + '/' + messageRef.id + '/' + file.name;
+        var filePath = `${firebase.auth().currentUser.uid}/${messageRef.id}/${file.name}`;
         return firebase.storage().ref(filePath).put(file).then(function(fileSnapshot) {
             // 3 - Generate a public URL for the file.
             return fileSnapshot.ref.getDownloadURL().then((url) => {
@@ -235,12 +235,15 @@ function resetMaterialTextfield(element) {
 }
 
 // Template for messages.
-var MESSAGE_TEMPLATE =
-    '<div class="message-container">' +
-    '<div class="spacing"><div class="pic"></div></div>' +
-    '<div class="message"></div>' +
-    '<div class="name"></div>' +
-    '</div>';
+var MESSAGE_TEMPLATE = `
+    <div class="message-container">
+        <div class="spacing">
+            <div class="pic"></div>
+        </div>
+        <div class="message"></div>
+        <div class="name"></div>
+    </div>
+`;
 
 // Adds a size to Google Profile pics URLs.
 function addSizeToGoogleProfilePic(url) {
